@@ -9,6 +9,8 @@ mousePos = {
   y: 0,
 };
 
+currentturn = "w";
+
 gridsize = 750 / 8;
 spriteSize = 426.5;
 spriteOffset = {
@@ -276,10 +278,6 @@ function gameloop() {
 
   console.log(checkhover(mousePos));
 
-  ctx.beginPath();
-  ctx.arc(mousePos.x, mousePos.y, 10, 0, 2 * Math.PI);
-  ctx.fill();
-
   if (selectedPiece != null) {
     ctx.strokeStyle = "green";
     ctx.beginPath();
@@ -310,11 +308,26 @@ document.addEventListener("mousedown", function (e) {
   oldSelectedPiece = selectedPiece;
   selectedPiece = checkhover(mousePos);
 
-  if (oldSelectedPiece !== null) {
-    board[selectedPiece.x][selectedPiece.y] =
-      board[oldSelectedPiece.x][oldSelectedPiece.y];
-    board[oldSelectedPiece.x][oldSelectedPiece.y] = "0";
+  if (board[oldSelectedPiece.x][oldSelectedPiece.y][0] === currentturn) {
+    if (
+      oldSelectedPiece.x === selectedPiece.x &&
+      oldSelectedPiece.y === selectedPiece.y
+    ) {
+      oldSelectedPiece = null;
+      selectedPiece = null;
+    }
 
-    selectedPiece = null;
+    if (oldSelectedPiece !== null) {
+      board[selectedPiece.x][selectedPiece.y] =
+        board[oldSelectedPiece.x][oldSelectedPiece.y];
+      board[oldSelectedPiece.x][oldSelectedPiece.y] = "0";
+
+      selectedPiece = null;
+    }
+    if (currentturn == "w") {
+      currentturn = "b";
+    } else {
+      currentturn = "w";
+    }
   }
 });
