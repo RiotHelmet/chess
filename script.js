@@ -13,10 +13,6 @@ currentturn = "w";
 
 gridsize = 750 / 8;
 spriteSize = 426.5;
-spriteOffset = {
-  x: 0,
-  y: 0,
-};
 
 ctx.font = "30px Arial";
 ctx.textAlign = "center";
@@ -37,24 +33,15 @@ function checkBoard() {
 }
 
 function printCheckboard() {
-  let i = 0;
+  let i = 1;
   for (let x = 0; x < board.length; x++) {
     for (let y = 0; y < board[x].length; y++) {
+      ctx.fillStyle = "#5d3231";
+      ctx.beginPath();
+      ctx.rect(gridsize * x, gridsize * y, gridsize, gridsize);
+      ctx.fill();
       if (i % 2 == 0) {
         ctx.fillStyle = "#794839";
-        ctx.beginPath();
-        ctx.rect(gridsize * x, gridsize * y, gridsize, gridsize);
-        ctx.fill();
-      }
-      i++;
-    }
-    i++;
-  }
-  i = 1;
-  for (let x = 0; x < board.length; x++) {
-    for (let y = 0; y < board[x].length; y++) {
-      if (i % 2 == 0) {
-        ctx.fillStyle = "#5d3231";
         ctx.beginPath();
         ctx.rect(gridsize * x, gridsize * y, gridsize, gridsize);
         ctx.fill();
@@ -66,187 +53,56 @@ function printCheckboard() {
 }
 
 function printBoard(board) {
-  let i = 0;
   printCheckboard();
   {
     for (let x = 0; x < board.length; x++) {
       for (let y = 0; y < board[x].length; y++) {
         ctx.strokeStyle = "black";
-        ctx.fillStyle = "white";
-        // if (board[x][y] == "k") {
-        //   ctx.fillStyle = "red";
-        // }
 
         ctx.beginPath();
         ctx.rect(gridsize * x, gridsize * y, gridsize, gridsize);
         ctx.stroke();
 
-        if (board[x][y] == "bp") {
-          ctx.drawImage(
-            sprite,
-            5 * spriteSize + spriteOffset.x,
-            1 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
-        }
-        if (board[x][y] == "br") {
-          ctx.drawImage(
-            sprite,
-            4 * spriteSize + spriteOffset.x,
-            1 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
-        }
-        if (board[x][y] == "bk") {
-          ctx.drawImage(
-            sprite,
-            3 * spriteSize + spriteOffset.x,
-            1 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
-        }
-        if (board[x][y] == "bb") {
-          ctx.drawImage(
-            sprite,
-            2 * spriteSize + spriteOffset.x,
-            1 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
-        }
-        if (board[x][y] == "bq") {
-          ctx.drawImage(
-            sprite,
-            1 * spriteSize + spriteOffset.x,
-            1 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
-        }
-        if (board[x][y] == "ba") {
-          ctx.drawImage(
-            sprite,
-            0 * spriteSize + spriteOffset.x,
-            1 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
+        if (board[x][y][0] == "w") {
+          color = 0;
+        } else {
+          color = 1;
         }
 
-        if (board[x][y] == "wp") {
-          ctx.drawImage(
-            sprite,
-            5 * spriteSize + spriteOffset.x,
-            0 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
-        }
-        if (board[x][y] == "wr") {
-          ctx.drawImage(
-            sprite,
-            4 * spriteSize + spriteOffset.x,
-            0 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
-        }
-        if (board[x][y] == "wk") {
-          ctx.drawImage(
-            sprite,
-            3 * spriteSize + spriteOffset.x,
-            0 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
-        }
-        if (board[x][y] == "wb") {
-          ctx.drawImage(
-            sprite,
-            2 * spriteSize + spriteOffset.x,
-            0 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
-        }
-        if (board[x][y] == "wq") {
-          ctx.drawImage(
-            sprite,
-            1 * spriteSize + spriteOffset.x,
-            0 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
-        }
-        if (board[x][y] == "wa") {
-          ctx.drawImage(
-            sprite,
-            0 * spriteSize + spriteOffset.x,
-            0 * spriteSize + spriteOffset.y,
-            spriteSize,
-            spriteSize,
-            gridsize * x,
-            gridsize * y,
-            gridsize,
-            gridsize
-          );
+        let piece;
+
+        switch (board[x][y][1]) {
+          case "a":
+            piece = 0;
+            break;
+          case "q":
+            piece = 1;
+            break;
+          case "b":
+            piece = 2;
+            break;
+          case "k":
+            piece = 3;
+            break;
+          case "r":
+            piece = 4;
+            break;
+          case "p":
+            piece = 5;
+            break;
         }
 
-        // if (board[x][y] != "0") {
-        //   ctx.fillStyle = "black";
-        //   ctx.fillText(
-        //     board[x][y],
-        //     gridsize * x + gridsize / 2,
-        //     gridsize * y + gridsize / 2
-        //   );
-        // }
+        ctx.drawImage(
+          sprite,
+          piece * spriteSize,
+          color * spriteSize,
+          spriteSize,
+          spriteSize,
+          gridsize * x,
+          gridsize * y,
+          gridsize,
+          gridsize
+        );
       }
     }
   }
@@ -273,12 +129,62 @@ function checkhover(mousePos) {
   }
 }
 
+function getAvailableMoves(piecePos) {
+  piece = board[piecePos.x][piecePos.y];
+
+  if (piece[0] == "w") {
+    dir = -1;
+  } else {
+    dir = 1;
+  }
+
+  switch (piece[1]) {
+    case "a":
+      return [[], []];
+    case "q":
+      piece = 1;
+      break;
+    case "b":
+      piece = 2;
+      break;
+    case "k":
+      piece = 3;
+      break;
+    case "r":
+      piece = 4;
+      break;
+    case "p":
+      if (piecePos.y == 1 || piecePos.y == 6) {
+        return [
+          [[piecePos.x], [piecePos.y + dir]],
+          [[piecePos.x], [piecePos.y + dir + dir]],
+        ];
+      }
+      return [[[piecePos.x], [piecePos.y + dir]]];
+  }
+}
+
 function gameloop() {
   printBoard(board);
 
-  console.log(checkhover(mousePos));
-
   if (selectedPiece != null) {
+    availableMoves = getAvailableMoves(selectedPiece);
+    if (availableMoves !== undefined) {
+      availableMoves.forEach((move) => {
+        ctx.fillStyle = "grey";
+        ctx.beginPath();
+
+        ctx.arc(
+          move[0] * gridsize + gridsize / 2,
+          move[1] * gridsize + gridsize / 2,
+          20,
+          0,
+          2 * Math.PI
+        );
+        ctx.fill();
+      });
+    }
+
     ctx.strokeStyle = "green";
     ctx.beginPath();
     ctx.rect(
